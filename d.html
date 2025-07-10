@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gareje Animation</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        header {
+            background-color: var(--primary);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                radial-gradient(var(--accent) 1px, transparent 1px),
+                radial-gradient(var(--accent) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            animation: float 20s linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-40px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .animation-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .animation-card {
+            background-color: var(--primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .animation-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .animation-card h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .animation-card p {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .animation-area {
+            height: 200px;
+            background-color: var(--dark);
+            border: 2px solid var(--accent);
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Specific animation elements */
+        .gear {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: spin 4s linear infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .gear:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at center, var(--primary) 3px, transparent 3px),
+                radial-gradient(circle at center, var(--primary) 3px, transparent 3px);
+            border-radius: 50%;
+        }
+        
+        .gear:after {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            background-image: 
+                repeating-conic-gradient(from 0deg, var(--primary) 0deg 15deg, transparent 15deg 30deg);
+            border-radius: 50%;
+        }
+        
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .piston {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 140px;
+            background-color: var(--light);
+            border-radius: 20px;
+        }
+        
+        .piston-rod {
+            position: absolute;
+            bottom: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 10px;
+            background-color: var(--secondary);
+            animation: piston 2s ease-in-out infinite;
+        }
+        
+        @keyframes piston {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(60px); }
+        }
+        
+        .conveyor-belt {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: var(--light);
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .conveyor-item {
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary);
+            border-radius: 4px;
+            margin: 5px;
+            animation: conveyor 4s linear infinite;
+        }
+        
+        @keyframes conveyor {
+            from { transform: translateX(-40px); }
+            to { transform: translateX(300px); }
+        }
+        
+        .conveyor-item:nth-child(1) { animation-delay: 0s; }
+        .conveyor-item:nth-child(2) { animation-delay: 0.5s; }
+        .conveyor-item:nth-child(3) { animation-delay: 1s; }
+        .conveyor-item:nth-child(4) { animation-delay: 1.5s; }
+        
+        /* Control panel */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        button {
+            background-color: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary);
+            transform: scale(1.05);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--primary);
+            margin-top: 3rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .animation-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-bg"></div>
+        <h1>Gareje Animations</h1>
+        <p class="subtitle">Mechanical motion brought to life with code</p>
+    </header>
+    
+    <div class="container">
+        <div class="animation-section">
+            <div class="animation-card">
+                <h2>Rotating Gear</h2>
+                <p>A perfectly tuned gear spinning endlessly in a digital garage.</p>
+                <div class="animation-area">
+                    <div class="gear"></div>
+                </div>
+                <div class="controls">
+                    <button class="speed-control" data-speed="2">Fast</button>
+                    <button class="speed-control" data-speed="4">Normal</button>
+                    <button class="speed-control" data-speed="8">Slow</button>
+                </div>
+            </div>
+            
+            <div class="animation-card">
+                <h2>Piston Engine</h2>
+                <p>A working piston demonstrating mechanical motion and timing.</p>
+                <div class="animation-area">
+                    <div class="piston"></div>
+                    <div class="piston-rod"></div>
+                </div>
+                <div class="controls">
+                    <button class="direction-control" data-direction="normal">Forward</button>
+                    <button class="direction-control" data-direction="reverse">Reverse</button>
+                </div>
+            </div>
+            
+            <div class="animation-card">
+                <h2>Conveyor Belt</h2>
+                <p>A factory-style conveyor moving digital widgets along.</p>
+                <div class="animation-area">
+                    <div class="conveyor-belt">
+                        <div class="conveyor-item"></div>
+                        <div class="conveyor-item"></div>
+                        <div class="conveyor-item"></div>
+                        <div class="conveyor-item"></div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="toggle-control" data-action="start">Start</button>
+                    <button class="toggle-control" data-action="stop">Stop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Created with the spirit of mechanical animation</p>
+    </footer>
+    
+    <script>
+        // Gear speed control
+        const gear = document.querySelector('.gear');
+        const speedControls = document.querySelectorAll('.speed-control');
+        
+        speedControls.forEach(control => {
+            control.addEventListener('click', () => {
+                const speed = parseFloat(control.dataset.speed);
+                gear.style.animationDuration = `${speed}s`;
+                
+                // Update active state
+                speedControls.forEach(btn => btn.style.opacity = '0.7');
+                control.style.opacity = '1';
+            });
+        });
+        
+        // Piston direction control
+        const pistonRod = document.querySelector('.piston-rod');
+        const directionControls = document.querySelectorAll('.direction-control');
+        
+        directionControls.forEach(control => {
+            control.addEventListener('click', () => {
+                const direction = control.dataset.direction;
+                if (direction === 'reverse') {
+                    pistonRod.style.animationDirection = 'reverse';
+                    pistonRod.style.backgroundColor = '#8e44ad';
+                } else {
+                    pistonRod.style.animationDirection = 'normal';
+                    pistonRod.style.backgroundColor = '#e74c3c';
+                }
+                
+                // Update active state
+                directionControls.forEach(btn => btn.style.opacity = '0.7');
+                control.style.opacity = '1';
+            });
+        });
+        
+        // Conveyor belt controls
+        const conveyorItems = document.querySelectorAll('.conveyor-item');
+        const toggleControls = document.querySelectorAll('.toggle-control');
+        
+        toggleControls.forEach(control => {
+            control.addEventListener('click', () => {
+                const action = control.dataset.action;
+                
+                conveyorItems.forEach(item => {
+                    if (action === 'stop') {
+                        item.style.animationPlayState = 'paused';
+                    } else {
+                        item.style.animationPlayState = 'running';
+                    }
+                });
+                
+                // Update active state
+                toggleControls.forEach(btn => btn.style.opacity = '0.7');
+                control.style.opacity = '1';
+            });
+        });
+        
+        // Add some interactive sparks when hovering over animations
+        const animationAreas = document.querySelectorAll('.animation-area');
+        
+        animationAreas.forEach(area => {
+            area.addEventListener('mouseenter', () => {
+                const rect = area.getBoundingClientRect();
+                const sparks = document.createElement('div');
+                
+                sparks.style.position = 'absolute';
+                sparks.style.width = '100%';
+                sparks.style.height = '100%';
+                sparks.style.backgroundImage = `
+                    radial-gradient(circle at 20% 30%, rgba(243, 156, 18, 0.5) 0%, transparent 20%),
+                    radial-gradient(circle at 80% 70%, rgba(243, 156, 18, 0.5) 0%, transparent 20%)
+                `;
+                sparks.style.pointerEvents = 'none';
+                sparks.style.opacity = '0';
+                sparks.style.transition = 'opacity 0.3s';
+                
+                area.appendChild(sparks);
+                
+                setTimeout(() => {
+                    sparks.style.opacity = '1';
+                }, 10);
+                
+                setTimeout(() => {
+                    sparks.style.opacity = '0';
+                    setTimeout(() => {
+                        sparks.remove();
+                    }, 300);
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
